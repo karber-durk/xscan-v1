@@ -1,0 +1,51 @@
+#!/bin/python
+
+import socket
+import sys
+
+
+def scan():
+
+    arg = sys.argv
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.settimeout(0.1)
+
+    host = socket.gethostbyname(arg[1])
+
+    port_input = arg[2]
+    print("\033[1;32mPort\tStatus\tService")
+    print("\033[1;34m----\t------\t-------\033[0m")
+
+    if '-' in port_input:
+            start, end = map(int, port_input.split('-'))
+
+            for i in range(start, end + 1):
+                sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                result = sock.connect_ex((host, i))
+
+                if result == 0:
+                    try:
+                        service = socket.getservbyport(i, "udp")
+                    except OSError:
+                        service = "Unknown"
+                    print(f"\033[1;32m{i}\\udp\tOPEN\t{service}")
+                else:
+                    print(f"\033[1;32m{i}\\udp\t\033[1;31mCLOSED")
+                sock.close()
+    else:
+        port = int(port_input)
+        result = sock.connect_ex((host, port))
+
+        if result == 0:
+            try:
+                service = socket.getservbyport(port, "udp")
+            except OSError:
+                service = "Unknown"
+            print(f"\033[1;32m{port}\\udp\tOPEN\t{service}")
+        else:
+            print(f"\033[1;32m{port}\\udp\t\033[1;31mCLOSED")
+        sock.close()
+
+
+
+scan()
