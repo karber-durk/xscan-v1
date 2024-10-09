@@ -1,10 +1,5 @@
-########################################
-####  Xscan Network and port Scanner ###
-########################################
+# xscan-v1
 
-- If you want to see how it works simply type
-
-$ ./xscan.sh
-
-
+A simple script that scan Networks and ports with some features like version detection like (nmap -sV) option but with some limitatoion
+And icmp packet tool like (ping)
 
