@@ -1,0 +1,66 @@
+#!/bin/python
+
+import socket
+import os
+import struct
+import time
+import select
+import sys
+
+
+def checksum(source_string):
+    count_to = (len(source_string) // 2) * 2
+    count = 0
+    sum = 0
+
+    while count < count_to:
+        this_val = source_string[count + 1] * 256 + source_string[count]
+        sum = sum + this_val
+        sum = sum & 0xffffffff
+        count = count + 2
+
+    if count_to < len(source_string):
+        sum = sum + source_string[len(source_string) - 1]
+        sum = sum & 0xffffffff
+
+    sum = (sum >> 16) + (sum & 0xffff)
+    sum = sum + (sum >> 16)
+    answer = ~sum
+    answer = answer & 0xffff
+    answer = answer >> 8 | (answer << 8 & 0xff00)
+    return answer
+
+def create_packet(id):
+    header = struct.pack("bbHHh", 8, 0, 0, id, 1)
+    data = 192 * "Q"
+    my_checksum = checksum(header + data.encode('utf-8'))
+    header = struct.pack("bbHHh", 8, 0, socket.htons(my_checksum), id, 1)
+    return header + data.encode('utf-8')
+
+def ping(dest_addr, timeout=1):
+    icmp = socket.getprotobyname("icmp")
+    sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, icmp)
+
+    id = os.getpid() & 0xFFFF
+    packet = create_packet(id)
+    try:
+    	sock.sendto(packet, (dest_addr, 1))
+    except OSError:
+        print(f"\033[1;31m{dest_addr} is Down")
+        sys.exit(1);
+    start_time = time.time()
+    ready = select.select([sock], [], [], timeout)
+    if ready[0] == []:
+        return
+
+    recv_time = time.time()
+    recv_packet, _ = sock.recvfrom(1024)
+    icmp_header = recv_packet[20:28]
+    _, _, _, recv_id, _ = struct.unpack("bbHHh", icmp_header)
+
+    if recv_id == id:
+        delay = recv_time - start_time
+        print(f"\033[1;32mReply from {dest_addr}: time={delay * 1000:.2f}ms Device is Up\033[0m")
+
+if __name__ == "__main__":
+      ping(sys.argv[1])
