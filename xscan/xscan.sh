@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Author: #Kasper
+# Date: 9/10/2024
+# If You Have any commecnt You can get me in Telegram: @AlMuetasem
+
+
 # Colors and Fonts using tput
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
