@@ -84,7 +84,7 @@ valid_host() {
 is_up() {
     check_root
     if [[ $next == "0" ]]; then
-        python .bin/ping "$host"
+        python bin/ping "$host"
     fi
 }
 
@@ -112,12 +112,12 @@ scan() {
                 else
                     # If valid, perform scan using Python script
                     printf "${GREEN}[${BLUE}*${GREEN}]${WHITE} Scanning $host on ports $start to $end\n\n"
-                    python .bin/"$file" "$host" "$port"
+                    python bin/"$file" "$host" "$port"
                 fi
             else
                 # If only one port is provided, perform scan
                 printf "${GREEN}[${BLUE}*${GREEN}]${WHITE} Scanning $host on port $port\n\n"
-                python .bin/"$file" "$host" "$port"
+                python bin/"$file" "$host" "$port"
             fi
         else
             printf "${GREEN}[${RED}!${GREEN}]${RED} Invalid port format. Please specify a valid port or port range.\n"
