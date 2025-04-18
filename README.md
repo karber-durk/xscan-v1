@@ -10,10 +10,6 @@
 - 🌐 **Host Availability Check** – Ping a host to see if it’s up.
 - 🛠 **Service Version Detection** – Detects running service versions (TCP only).
 - 🔧 **Custom Port Ranges** – Scan single ports or port ranges (e.g., `80` or `1-100`).
-- ⚡ **Color-coded Output** – Easy-to-read CLI formatting using `tput`.
-- 🔐 **Root Check** – Ensures scans that require privileges are run safely.
-- 🧠 **Input Validation** – Host and port validation to avoid misuse.
-- 📦 **Modular Design** – Scanning logic is separated into Python files under `.bin/`.
 
 ---
 
