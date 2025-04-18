@@ -2,7 +2,7 @@
 
 # Author: #Kasper
 # Date: 9/10/2024
-# If You Have any commecnt You can get me in Telegram: @AlMuetasem
+# If You Have any commecnt You can get me in Telegram: @User0xz19
 
 
 # Colors and Fonts using tput
