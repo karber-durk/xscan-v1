@@ -63,5 +63,5 @@ sudo ./xscan -H example.com -p 80 -sV
 
 **Kasper**  
 📆 **Date:** 9/10/2024  
-💬 **Telegram:** [@AlMuetasem](https://t.me/User0xz19)
+💬 **Telegram:** [@User0xz19](https://t.me/User0xz19)
 
